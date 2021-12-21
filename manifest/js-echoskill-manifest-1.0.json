@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+    "$id": "js-echo-skill",
+    "name": "JS Echo Skill",
+    "version": "1.0",
+    "description": "This is a sample echo skill",
+    "publisherName": "CoSo",
+    "privacyUrl": "",
+    "copyright": "Copyright (c) Corporate Software. All rights reserved.",
+    "license": "",
+    "iconUrl": "",
+    "tags": [
+      "test",
+      "echo"
+    ],
+    "endpoints": [
+      {
+        "name": "default",
+        "protocol": "BotFrameworkV3",
+        "description": "Default endpoint for the skill",
+        "endpointUrl": "http://echoskillbot.contoso.com/api/messages",
+        "msAppId": "00000000-0000-0000-0000-000000000000"
+      }
+    ]
+  }
