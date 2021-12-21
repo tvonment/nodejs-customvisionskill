@@ -19,7 +19,7 @@
         "protocol": "BotFrameworkV3",
         "description": "Default endpoint for the skill",
         "endpointUrl": "http://echoskillbot.contoso.com/api/messages",
-        "msAppId": "00000000-0000-0000-0000-000000000000"
+        "msAppId": "26fa7983-deb4-4ad1-878a-07dd802a2f83"
       }
     ]
   }
