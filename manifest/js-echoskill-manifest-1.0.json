@@ -1,25 +1,25 @@
 {
-    "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
-    "$id": "js-echo-skill",
-    "name": "JS Echo Skill",
-    "version": "1.0",
-    "description": "This is a sample echo skill",
-    "publisherName": "CoSo",
-    "privacyUrl": "",
-    "copyright": "Copyright (c) Corporate Software. All rights reserved.",
-    "license": "",
-    "iconUrl": "",
-    "tags": [
-      "test",
-      "echo"
-    ],
-    "endpoints": [
-      {
-        "name": "PROD",
-        "protocol": "BotFrameworkV3",
-        "description": "endpoint for the skill",
-        "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
-        "msAppId": "26fa7983-deb4-4ad1-878a-07dd802a2f83"
-      }
-    ]
-  }
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "js-echo-skill",
+  "name": "JS Echo Skill",
+  "version": "1.0",
+  "description": "This is a sample echo skill",
+  "publisherName": "CoSo",
+  "privacyUrl": "",
+  "copyright": "Copyright (c) Corporate Software. All rights reserved.",
+  "license": "",
+  "iconUrl": "",
+  "tags": [
+    "test",
+    "echo"
+  ],
+  "endpoints": [
+    {
+      "name": "PROD",
+      "protocol": "BotFrameworkV3",
+      "description": "endpoint for the skill",
+      "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
+      "msAppId": "a37ca58e-3948-4fb4-9112-c5779cfba661"
+    }
+  ]
+}
