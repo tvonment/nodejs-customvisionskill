@@ -20,6 +20,13 @@
             "description": "Production endpoint for EchoSkillBot",
             "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
             "msAppId": "a37ca58e-3948-4fb4-9112-c5779cfba661"
-        }
+        },
+        {
+            "name": "DEV",
+            "protocol": "BotFrameworkV3",
+            "description": "develppment endpoint for EchoSkillBot",
+            "endpointUrl": "http://localhost:39783/api/messages",
+            "msAppId": ""
+    }
     ]
 }
