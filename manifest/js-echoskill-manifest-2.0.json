@@ -1,0 +1,25 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
+    "$id": "EchoSkillBot",
+    "name": "Sample skill that echoes back user input",
+    "version": "1.0",
+    "description": "This is a sample skill",
+    "publisherName": "CoSo",
+    "privacyUrl": "https://www.corporatesoftware.ch/privacy-policy-imprint",
+    "copyright": "Copyright (c) Corporate Software AG. All rights reserved.",
+    "license": "",
+    "iconUrl": "skillIcon.png",
+    "tags": [
+        "sample",
+        "echo"
+    ],
+    "endpoints": [
+        {
+            "name": "PROD",
+            "protocol": "BotFrameworkV3",
+            "description": "Production endpoint for EchoSkillBot",
+            "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
+            "msAppId": "a37ca58e-3948-4fb4-9112-c5779cfba661"
+        }
+    ]
+}
