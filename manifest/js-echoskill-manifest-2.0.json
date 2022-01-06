@@ -1,14 +1,14 @@
 {
     "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
-    "$id": "EchoSkillBot",
-    "name": "Sample skill that echoes back user input",
+    "$id": "cec5f4df-5115-4fc6-a94c-0f6ce4a4db52",
+    "name": "EchoSkillBot",
     "version": "1.0",
     "description": "This is a sample skill",
     "publisherName": "CoSo",
     "privacyUrl": "https://www.corporatesoftware.ch/privacy-policy-imprint",
     "copyright": "Copyright (c) Corporate Software AG. All rights reserved.",
-    "license": "",
-    "iconUrl": "skillIcon.png",
+    "license": "MIT",
+    "iconUrl": "https://tobomed2.blob.core.windows.net/images/bot.png",
     "tags": [
         "sample",
         "echo"
