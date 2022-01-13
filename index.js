@@ -12,27 +12,33 @@ const {
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
     createBotFrameworkAuthenticationFromConfiguration,
-    InputHints
+    InputHints,
+    ConversationState,
+    MemoryStorage,
+    UserState
 } = require('botbuilder');
+
 const {
     allowedCallersClaimsValidator,
     AuthenticationConfiguration,
     AuthenticationConstants
 } = require('botframework-connector');
 
+const { MainDialog } = require('./dialogs/mainDialog');
+
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
 dotenv.config({ path: ENV_FILE });
 
 // This bot's main dialog.
-const { EchoBot } = require('./bot');
+const { CustomVisionBot } = require('./bot');
 
 // Create HTTP server
 const server = restify.createServer();
 server.use(restify.plugins.bodyParser());
 
 server.listen(process.env.port || process.env.PORT || 39783, () => {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\n${server.name} listening to ${server.url}`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
@@ -53,10 +59,10 @@ if (MicrosoftAppTenantId) {
     // For SingleTenant/MSI auth, the JWT tokens will be issued from the bot's home tenant.
     // Therefore, these issuers need to be added to the list of valid token issuers for authenticating activity requests.
     validTokenIssuers = [
-        `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV1 }${ MicrosoftAppTenantId }/`,
-        `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV2 }${ MicrosoftAppTenantId }/v2.0/`,
-        `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1 }${ MicrosoftAppTenantId }/`,
-        `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2 }${ MicrosoftAppTenantId }/v2.0/`
+        `${AuthenticationConstants.ValidTokenIssuerUrlTemplateV1}${MicrosoftAppTenantId}/`,
+        `${AuthenticationConstants.ValidTokenIssuerUrlTemplateV2}${MicrosoftAppTenantId}/v2.0/`,
+        `${AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1}${MicrosoftAppTenantId}/`,
+        `${AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2}${MicrosoftAppTenantId}/v2.0/`
     ];
 }
 
@@ -76,12 +82,26 @@ const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfigura
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
 const adapter = new CloudAdapter(botFrameworkAuthentication);
 
+// Define state store for your bot.
+// See https://aka.ms/about-bot-state to learn more about bot state.
+const memoryStorage = new MemoryStorage();
+
+// Create user and conversation state with in-memory storage provider.
+const userState = new UserState(memoryStorage);
+const conversationState = new ConversationState(memoryStorage);
+
+// Create the main dialog.
+const dialog = new MainDialog(userState);
+
+// Create the main dialog.
+const myBot = new CustomVisionBot(conversationState, userState, dialog);
+
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to the console log, instead of to app insights.
     // NOTE: In a production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+    console.error(`\n [onTurnError] unhandled error: ${error}`);
 
     await sendErrorMessage(context, error);
     await sendEoCToParent(context, error);
@@ -101,7 +121,7 @@ async function sendErrorMessage(context, error) {
         // this should not be done in production.
         await context.sendTraceActivity('OnTurnError Trace', error.toString(), 'https://www.botframework.com/schemas/error', 'TurnError');
     } catch (err) {
-        console.error(`\n [onTurnError] Exception caught in sendErrorMessage: ${ err }`);
+        console.error(`\n [onTurnError] Exception caught in sendErrorMessage: ${err}`);
     }
 }
 
@@ -116,12 +136,9 @@ async function sendEoCToParent(context, error) {
         };
         await context.sendActivity(endOfConversation);
     } catch (err) {
-        console.error(`\n [onTurnError] Exception caught in sendEoCToParent: ${ err }`);
+        console.error(`\n [onTurnError] Exception caught in sendEoCToParent: ${err}`);
     }
 }
-
-// Create the main dialog.
-const myBot = new EchoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
