@@ -1,6 +1,6 @@
 {
     "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
-    "$id": "",
+    "$id": "CustomVisionBot",
     "name": "CustomVisionBot",
     "version": "1.0",
     "description": "This is a sample skill for custom vision integration",
@@ -11,15 +11,15 @@
     "iconUrl": "<IMG_URL>",
     "tags": [
         "sample",
-        "echo"
+        "custom vision"
     ],
     "endpoints": [
         {
             "name": "PROD",
             "protocol": "BotFrameworkV3",
             "description": "Production endpoint for EchoSkillBot",
-            "endpointUrl": "https://<ServiceName>.azurewebsites.net/api/messages",
-            "msAppId": "<APP_ID>"
+            "endpointUrl": "https://tobomedcustomvisionskill.azurewebsites.net/api/messages",
+            "msAppId": "0a60b239-e514-4110-aebe-d3a0f7c59675"
         },
         {
             "name": "DEV",
