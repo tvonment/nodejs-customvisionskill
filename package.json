@@ -1,7 +1,7 @@
 {
-    "name": "js-echo-skill",
+    "name": "js-customvision-skill",
     "version": "1.0.0",
-    "description": "A Skill for Test",
+    "description": "A Skill for Processing Images to Custom Vision",
     "author": "Thomas",
     "license": "MIT",
     "main": "index.js",

@@ -1,14 +1,14 @@
 {
     "$schema": "https://schemas.botframework.com/schemas/skills/v2.2/skill-manifest.json",
-    "$id": "cec5f4df-5115-4fc6-a94c-0f6ce4a4db52",
-    "name": "EchoSkillBot",
+    "$id": "",
+    "name": "CustomVisionBot",
     "version": "1.0",
     "description": "This is a sample skill",
     "publisherName": "CoSo",
     "privacyUrl": "https://www.corporatesoftware.ch/privacy-policy-imprint",
     "copyright": "Copyright (c) Corporate Software AG. All rights reserved.",
     "license": "MIT",
-    "iconUrl": "https://tobomed2.blob.core.windows.net/images/bot.png",
+    "iconUrl": "<IMG_URL>",
     "tags": [
         "sample",
         "echo"
@@ -18,21 +18,14 @@
             "name": "PROD",
             "protocol": "BotFrameworkV3",
             "description": "Production endpoint for EchoSkillBot",
-            "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
-            "msAppId": "a37ca58e-3948-4fb4-9112-c5779cfba661"
-        },
-        {
-            "name": "PROD Multi",
-            "protocol": "BotFrameworkV3",
-            "description": "Production endpoint for EchoSkillBot",
-            "endpointUrl": "https://tobomedechoskill.azurewebsites.net/api/messages",
-            "msAppId": "60aade68-28c9-4d00-b3da-fd90ee727c89"
+            "endpointUrl": "https://<ServiceName>.azurewebsites.net/api/messages",
+            "msAppId": "<APP_ID>"
         },
         {
             "name": "DEV",
             "protocol": "BotFrameworkV3",
             "description": "develppment endpoint for EchoSkillBot",
-            "endpointUrl": "http://localhost:39783/api/messages",
+            "endpointUrl": "http://localhost:<PORT>/api/messages",
             "msAppId": ""
         }
     ]
