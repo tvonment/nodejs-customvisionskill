@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
-const { TopLevelDialog, TOP_LEVEL_DIALOG } = require('./topLevelDialog');
+const { HandleAttachementDialog, HANDLE_ATTACHEMENT_DIALOG } = require('./handleAttachementDialog');
+const { NoAttachementDialog, NO_ATTACHEMENT_DIALOG } = require('./noAttachementDialog');
 
 const MAIN_DIALOG = 'MAIN_DIALOG';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
@@ -14,7 +15,8 @@ class MainDialog extends ComponentDialog {
         this.userState = userState;
         this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
 
-        this.addDialog(new TopLevelDialog());
+        this.addDialog(new HandleAttachementDialog());
+        this.addDialog(new NoAttachementDialog());
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.initialStep.bind(this),
             this.finalStep.bind(this)
@@ -41,16 +43,15 @@ class MainDialog extends ComponentDialog {
     }
 
     async initialStep(stepContext) {
-        return await stepContext.beginDialog(TOP_LEVEL_DIALOG);
+        if (stepContext.context.activity.attachments && stepContext.context.activity.attachments.length > 0) {
+            // The user sent an attachment and the bot should handle the incoming attachment.
+            return await stepContext.beginDialog(HANDLE_ATTACHEMENT_DIALOG);
+        } else {
+            return await stepContext.beginDialog(NO_ATTACHEMENT_DIALOG);
+        }
     }
 
     async finalStep(stepContext) {
-        const userInfo = stepContext.result;
-
-        const status = 'You are signed up to review ' +
-            (userInfo.companiesToReview.length === 0 ? 'no companies' : userInfo.companiesToReview.join(' and ')) + '.';
-        await stepContext.context.sendActivity(status);
-        await this.userProfileAccessor.set(stepContext.context, userInfo);
         return await stepContext.endDialog();
     }
 }
