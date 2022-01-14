@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+const { ActivityTypes, EndOfConversationCodes, ConsoleTranscriptLogger } = require('botbuilder');
 const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { HandleAttachementDialog, HANDLE_ATTACHEMENT_DIALOG } = require('./handleAttachementDialog');
 const { NoAttachementDialog, NO_ATTACHEMENT_DIALOG } = require('./noAttachementDialog');
+
 
 const MAIN_DIALOG = 'MAIN_DIALOG';
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
@@ -43,7 +45,8 @@ class MainDialog extends ComponentDialog {
     }
 
     async initialStep(stepContext) {
-        if (stepContext.context.activity.attachments && stepContext.context.activity.attachments.length > 0) {
+
+        if (stepContext.context.activity.attachments && stepContext.context.activity.attachments.filter(x => x.contentType != "text/html").length > 0) {
             // The user sent an attachment and the bot should handle the incoming attachment.
             return await stepContext.beginDialog(HANDLE_ATTACHEMENT_DIALOG);
         } else {
@@ -52,7 +55,7 @@ class MainDialog extends ComponentDialog {
     }
 
     async finalStep(stepContext) {
-        return await stepContext.endDialog();
+        return { status: DialogTurnStatus.complete };
     }
 }
 
