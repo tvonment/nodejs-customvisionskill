@@ -3,8 +3,8 @@
 
 const { ActivityTypes, EndOfConversationCodes, ConsoleTranscriptLogger } = require('botbuilder');
 const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
-const { HandleAttachementDialog, HANDLE_ATTACHEMENT_DIALOG } = require('./handleAttachementDialog');
-const { NoAttachementDialog, NO_ATTACHEMENT_DIALOG } = require('./noAttachementDialog');
+const { HandleAttachmentDialog, HANDLE_ATTACHMENT_DIALOG } = require('./handleAttachmentDialog');
+const { NoAttachmentDialog, NO_ATTACHMENT_DIALOG } = require('./noAttachmentDialog');
 
 
 const MAIN_DIALOG = 'MAIN_DIALOG';
@@ -17,8 +17,8 @@ class MainDialog extends ComponentDialog {
         this.userState = userState;
         this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
 
-        this.addDialog(new HandleAttachementDialog());
-        this.addDialog(new NoAttachementDialog());
+        this.addDialog(new HandleAttachmentDialog());
+        this.addDialog(new NoAttachmentDialog());
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.initialStep.bind(this),
             this.finalStep.bind(this)
@@ -48,9 +48,9 @@ class MainDialog extends ComponentDialog {
 
         if (stepContext.context.activity.attachments && stepContext.context.activity.attachments.filter(x => x.contentType != "text/html").length > 0) {
             // The user sent an attachment and the bot should handle the incoming attachment.
-            return await stepContext.beginDialog(HANDLE_ATTACHEMENT_DIALOG);
+            return await stepContext.beginDialog(HANDLE_ATTACHMENT_DIALOG);
         } else {
-            return await stepContext.beginDialog(NO_ATTACHEMENT_DIALOG);
+            return await stepContext.beginDialog(NO_ATTACHMENT_DIALOG);
         }
     }
 
