@@ -55,7 +55,8 @@ class MainDialog extends ComponentDialog {
     }
 
     async finalStep(stepContext) {
-        return { status: DialogTurnStatus.complete };
+        //return { status: DialogTurnStatus.complete };
+        return await stepContext.cancelAllDialogs();
     }
 }
 
