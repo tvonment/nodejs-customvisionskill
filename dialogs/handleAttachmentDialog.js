@@ -4,13 +4,13 @@
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 const axios = require('axios');
 
-const HANDLE_ATTACHEMENT_DIALOG = 'HANDLE_ATTACHEMENT_DIALOG';
+const HANDLE_ATTACHMENT_DIALOG = 'HANDLE_ATTACHMENT_DIALOG';
 
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 
-class HandleAttachementDialog extends ComponentDialog {
+class HandleAttachmentDialog extends ComponentDialog {
     constructor() {
-        super(HANDLE_ATTACHEMENT_DIALOG);
+        super(HANDLE_ATTACHMENT_DIALOG);
 
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.initStep.bind(this),
@@ -23,16 +23,14 @@ class HandleAttachementDialog extends ComponentDialog {
 
     async initStep(stepContext) {
         // Continue using the same selection list, if any, from the previous iteration of this dialog.
-        await stepContext.context.sendActivity('Attachement Dialog fired.');
+        await stepContext.context.sendActivity('Thank you, I will analyze your image.');
         return await stepContext.next();
     }
 
     async sendToCustomVisionStep(stepContext) {
-        console.log(stepContext.context.activity.attachments[0].content)
-
         await axios({
             method: 'post',
-            url: 'https://tobomedcustomvision-prediction.cognitiveservices.azure.com/customvision/v3.0/Prediction/e489f41e-bfd4-41aa-b2b8-addf90b8789a/classify/iterations/Iteration1/url',
+            url: process.env.CustomVisionUrl,
             headers: {
                 "Prediction-Key": process.env.CustomVisionKey,
                 "Content-Type": "application/json"
@@ -42,8 +40,7 @@ class HandleAttachementDialog extends ComponentDialog {
             }
         })
             .then(async (response) => {
-                console.log(response);
-                await stepContext.context.sendActivity(response);
+                await stepContext.context.sendActivity(response.data.predictions[0].tagName + " with an " + response.data.predictions[0].probability + " probability");
             })
             .catch((error) => {
                 console.log(error);
@@ -57,5 +54,5 @@ class HandleAttachementDialog extends ComponentDialog {
     }
 }
 
-module.exports.HandleAttachementDialog = HandleAttachementDialog;
-module.exports.HANDLE_ATTACHEMENT_DIALOG = HANDLE_ATTACHEMENT_DIALOG;
+module.exports.HandleAttachmentDialog = HandleAttachmentDialog;
+module.exports.HANDLE_ATTACHMENT_DIALOG = HANDLE_ATTACHMENT_DIALOG;

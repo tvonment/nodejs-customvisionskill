@@ -3,13 +3,13 @@
 
 const { ComponentDialog, WaterfallDialog } = require('botbuilder-dialogs');
 
-const NO_ATTACHEMENT_DIALOG = 'NO_ATTACHEMENT_DIALOG';
+const NO_ATTACHMENT_DIALOG = 'NO_ATTACHMENT_DIALOG';
 
 const WATERFALL_DIALOG = 'WATERFALL_DIALOG';
 
-class NoAttachementDialog extends ComponentDialog {
+class NoAttachmentDialog extends ComponentDialog {
     constructor() {
-        super(NO_ATTACHEMENT_DIALOG);
+        super(NO_ATTACHMENT_DIALOG);
 
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.initStep.bind(this),
@@ -21,7 +21,7 @@ class NoAttachementDialog extends ComponentDialog {
 
     async initStep(stepContext) {
         // Continue using the same selection list, if any, from the previous iteration of this dialog.
-        await stepContext.context.sendActivity('No Attachement Dialog fired.');
+        await stepContext.context.sendActivity('No Attachment, please upload an image.');
         return await stepContext.next();
     }
 
@@ -30,5 +30,5 @@ class NoAttachementDialog extends ComponentDialog {
     }
 }
 
-module.exports.NoAttachementDialog = NoAttachementDialog;
-module.exports.NO_ATTACHEMENT_DIALOG = NO_ATTACHEMENT_DIALOG;
+module.exports.NoAttachmentDialog = NoAttachmentDialog;
+module.exports.NO_ATTACHMENT_DIALOG = NO_ATTACHMENT_DIALOG;
