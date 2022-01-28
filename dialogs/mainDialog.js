@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, EndOfConversationCodes, ConsoleTranscriptLogger } = require('botbuilder');
+const { ActivityTypes, EndOfConversationCodes, ConsoleTranscriptLogger, MessageFactory } = require('botbuilder');
 const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { HandleAttachmentDialog, HANDLE_ATTACHMENT_DIALOG } = require('./handleAttachmentDialog');
 const { NoAttachmentDialog, NO_ATTACHMENT_DIALOG } = require('./noAttachmentDialog');
@@ -55,7 +55,11 @@ class MainDialog extends ComponentDialog {
     }
 
     async finalStep(stepContext) {
-        //return { status: DialogTurnStatus.complete };
+        await stepContext.context.sendActivity(MessageFactory.text("Leave Skill"))
+        await stepContext.context.sendActivity({
+            type: ActivityTypes.EndOfConversation,
+            code: EndOfConversationCodes.CompletedSuccessfully
+        });
         return await stepContext.cancelAllDialogs();
     }
 }
